@@ -3,7 +3,7 @@ zsh-directory-history
 
 A per directory history for zsh.
 
-[![asciicast](https://asciinema.org/a/7z5h32eutd5fk1ec5ujlwyw0p.png)](https://asciinema.org/a/7z5h32eutd5fk1ec5ujlwyw0p)
+![](https://github.com/tymm/directory-history/wiki/demo.gif)
 
 DESCRIPTION
 -----------
