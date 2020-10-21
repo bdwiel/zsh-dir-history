@@ -1,0 +1,17 @@
+#!/usr/bin/env python2
+import sys
+from os.path import expanduser
+import time
+
+if len(sys.argv) != 3:
+    print "Needs command and directory as arguments"
+    sys.exit(1)
+
+command = sys.argv[1]
+directory = sys.argv[2]
+home = os.getenv("ZDOTDIR", os.getenv("HOME"))
+timestamp = int(time.time())
+
+with open(home + "/.directory_history", "a") as f:
+    # Append ": timestamp:0;directory;command"
+    f.write(": " + str(timestamp) + ":0;" + directory + ";" + command + "\n")
