@@ -11,12 +11,18 @@ ZSH_DIR_HISTORY_LOGFILE=$ZSH_DIR_HISTORY_HISTDIR/zsh_dir_history.log
 
 # histfile to use when per-dir history is exhausted
 ZSH_DIR_HISTORY_NONDIR_HISTFILE=$ZSH_DIR_HISTORY_PRIVATE_HISTFILE
+touch $ZSH_DIR_HISTORY_NONDIR_HISTFILE
+
+mkdir -p $ZSH_DIR_HISTORY_HISTDIR &> /dev/null
 
 
 # Generates a new history for the current directory
 function generate_history() {
-  # replace all '/' with '%' in $PWD
-  local cwd_name=${PWD//\//%}
+  # expand $PWD and remove symlinks
+  local tmp_pwd=${PWD:A}
+  # this will be the per-dir filename. replace all '/' with '%' in $tmp_pwd
+  local cwd_name=${tmp_pwd//\//%}
+  # this is the full path to the per-dir HISTFILE
   local cwd_histfile=${ZSH_DIR_HISTORY_HISTDIR}/${cwd_name}
   touch $cwd_histfile
 
@@ -25,9 +31,9 @@ function generate_history() {
 
   # erase history list
   fc -P
-  fc -p /dev/null
+  fc -p $ZSH_DIR_HISTORY_HISTDIR/tmp
 
-  # populate history list with common file
+  # populate history list with the non-dir file
   HISTFILE=$ZSH_DIR_HISTORY_NONDIR_HISTFILE
   fc -R
 
@@ -58,9 +64,11 @@ chpwd_functions=(${chpwd_functions[@]} "generate_history")
 
 # Call log_command() everytime a command is executed
 preexec_functions=(${preexec_functions[@]} "log_command")
+# preexec_functions=("log_command")
 
 # Call generate_history() everytime the user opens a prompt
 precmd_functions=(${precmd_functions[@]} "generate_history")
+# precmd_functions=("generate_history")
 
 # Generates a new history for the current directory
 # function generate_history() {
