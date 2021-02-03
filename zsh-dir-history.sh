@@ -45,12 +45,12 @@ function generate_history() {
 last_command=""
 # Append to common history file
 function log_command() {
-  [[ "${1}" = \ * ]] && [[ "$HISTCONTROL" =~ "ignorespace" ]] && return
-  if [[ "${1}" != ${~HISTORY_IGNORE} ]]; then
-    [[ "${1}" == "$last_command" ]] && [[ "$HISTCONTROL" =~ "ignoredups" ]] && return
-    echo -n ": ${EPOCHSECONDS}:0;${1}\n" >> $ZSH_DIR_HISTORY_NONDIR_HISTFILE
-  fi
-  last_command="${1}"
+  # [[ "${1}" = \ * ]] && [[ "$HISTCONTROL" =~ "ignorespace" ]] && return
+  # if [[ "${1}" != ${~HISTORY_IGNORE} ]]; then
+  #   [[ "${1}" == "$last_command" ]] && [[ "$HISTCONTROL" =~ "ignoredups" ]] && return
+  # fi
+  # last_command="${1}"
+  echo -n ": ${EPOCHSECONDS}:0;${1}\n" >> $ZSH_DIR_HISTORY_NONDIR_HISTFILE
 }
 
 # Call generate_history() everytime the directory is changed
