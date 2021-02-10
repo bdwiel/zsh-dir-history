@@ -13,6 +13,8 @@ ZSH_DIR_HISTORY_LOGFILE=$ZSH_DIR_HISTORY_HISTDIR/zsh_dir_history.log
 ZSH_DIR_HISTORY_NONDIR_HISTFILE=$ZSH_DIR_HISTORY_PRIVATE_HISTFILE
 touch $ZSH_DIR_HISTORY_NONDIR_HISTFILE
 
+ZSH_DIR_HISTORY_INITIALIZED=0
+
 mkdir -p $ZSH_DIR_HISTORY_HISTDIR &> /dev/null
 
 
@@ -42,6 +44,19 @@ function generate_history() {
   fc -R
 }
 
+function llog() {
+    echo "in llog"
+}
+
+function new_prompt_setup() {
+    if [[ "${ZSH_DIR_HISTORY_INITIALIZED}" == "1" ]]; then
+        return
+    fi
+    generate_history
+    llog
+    ZSH_DIR_HISTORY_INITIALIZED=1
+}
+
 last_command=""
 # Append to common history file
 function log_command() {
@@ -62,5 +77,6 @@ preexec_functions=(${preexec_functions[@]} "log_command")
 # preexec_functions=("log_command")
 
 # Call generate_history() everytime the user opens a prompt
-precmd_functions=(${precmd_functions[@]} "generate_history")
+precmd_functions=(${precmd_functions[@]} "new_prompt_setup")
+# precmd_functions=(${precmd_functions[@]} "llog")
 # precmd_functions=("generate_history")
