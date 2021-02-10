@@ -53,7 +53,6 @@ function new_prompt_setup() {
         return
     fi
     generate_history
-    llog
     ZSH_DIR_HISTORY_INITIALIZED=1
 }
 
