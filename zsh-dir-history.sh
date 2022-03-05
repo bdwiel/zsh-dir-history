@@ -3,7 +3,7 @@ zmodload zsh/datetime
 setopt inc_append_history
 
 ZSH_DIR_HISTORY_TTY=`tty`
-ZSH_DIR_HISTORY_HISTDIR=$HOME/.zsh_dir_history
+ZSH_DIR_HISTORY_HISTDIR=${XDG_CONFIG_HOME:=$HOME/.config}/.zsh_dir_history
 # per terminal history file uses "private-$tty" where $tty is e.g. /dev/ttys097 with / replaced with %)
 ZSH_DIR_HISTORY_PRIVATE_HISTFILE=$ZSH_DIR_HISTORY_HISTDIR/private-${ZSH_DIR_HISTORY_TTY//\//%}
 ZSH_DIR_HISTORY_SHARED_HISTFILE=$ZSH_DIR_HISTORY_HISTDIR/shared
