@@ -12,6 +12,7 @@ ZSH_DIR_HISTORY_LOGFILE=$ZSH_DIR_HISTORY_HISTDIR/zsh_dir_history.log
 # histfile to use when per-dir history is exhausted
 ZSH_DIR_HISTORY_NONDIR_HISTFILE=$ZSH_DIR_HISTORY_PRIVATE_HISTFILE
 touch $ZSH_DIR_HISTORY_NONDIR_HISTFILE
+touch $ZSH_DIR_HISTORY_SHARED_HISTFILE
 
 ZSH_DIR_HISTORY_INITIALIZED=0
 
@@ -41,6 +42,11 @@ function generate_history() {
 
   # append dir-specific history list
   HISTFILE=$cwd_histfile
+
+  # if HISTFILE is too long then fall back to a shared file
+  if [[ ${#HISTFILE} -gt 200 ]]; then
+    HISTFILE=$ZSH_DIR_HISTORY_SHARED_HISTFILE
+  fi
   fc -R
 }
 
